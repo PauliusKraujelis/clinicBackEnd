@@ -10,39 +10,40 @@ import com.clinicBackEnd.repository.PatientRepository;
 
 @Service
 public class PatientService {
-    private final PatientRepository patientRepository;
 
     @Autowired
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
+    private PatientRepository patientRepository;
 
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
+    public Patient createPatient(Patient patient) {
+        return patientRepository.save(patient);
     }
 
     public Patient getPatientById(Long id) {
         return patientRepository.findById(id).orElse(null);
     }
 
-    public Patient createPatient(Patient patient) {
-        return patientRepository.save(patient);
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
     }
 
     public Patient updatePatient(Long id, Patient updatedPatient) {
-        Patient existingPatient = patientRepository.findById(id).orElse(null);
-        if (existingPatient != null) {
-            existingPatient.setFirstName(updatedPatient.getFirstName());
-            existingPatient.setLastName(updatedPatient.getLastName());
-            existingPatient.setAge(updatedPatient.getAge());
-            existingPatient.setGender(updatedPatient.getGender());
-            return patientRepository.save(existingPatient);
-        } else {
-            return null;
+        Patient patient = getPatientById(id);
+        if (patient != null) {
+            patient.setFirstName(updatedPatient.getFirstName());
+            patient.setLastName(updatedPatient.getLastName());
+            patient.setAge(updatedPatient.getAge());
+            patient.setGender(updatedPatient.getGender());
+            patient.setAppointments(updatedPatient.getAppointments());
+            return patientRepository.save(patient);
         }
+        return null;
     }
 
-    public void deletePatient(Long id) {
-        patientRepository.deleteById(id);
+    public boolean deletePatient(Long id) {
+        if (patientRepository.existsById(id)) {
+            patientRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

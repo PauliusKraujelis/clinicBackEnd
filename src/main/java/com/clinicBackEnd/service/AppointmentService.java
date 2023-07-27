@@ -10,41 +10,39 @@ import com.clinicBackEnd.repository.AppointmentRepository;
 
 @Service
 public class AppointmentService {
-    private final AppointmentRepository appointmentRepository;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository) {
-        this.appointmentRepository = appointmentRepository;
-    }
+    private AppointmentRepository appointmentRepository;
 
-    // CRUD operations for Appointment entity
-
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
+    public Appointment createAppointment(Appointment appointment) {
+        return appointmentRepository.save(appointment);
     }
 
     public Appointment getAppointmentById(Long id) {
         return appointmentRepository.findById(id).orElse(null);
     }
 
-    public Appointment createAppointment(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepository.findAll();
     }
 
     public Appointment updateAppointment(Long id, Appointment updatedAppointment) {
-        Appointment existingAppointment = appointmentRepository.findById(id).orElse(null);
-        if (existingAppointment != null) {
-            existingAppointment.setDateTime(updatedAppointment.getDateTime());
-            existingAppointment.setLocation(updatedAppointment.getLocation());
-            existingAppointment.setPatient(updatedAppointment.getPatient());
-
-            return appointmentRepository.save(existingAppointment);
-        } else {
-            return null;
+        Appointment appointment = getAppointmentById(id);
+        if (appointment != null) {
+            appointment.setDateTime(updatedAppointment.getDateTime());
+            appointment.setLocation(updatedAppointment.getLocation());
+            appointment.setPatient(updatedAppointment.getPatient());
+            return appointmentRepository.save(appointment);
         }
+        return null;
     }
 
-    public void deleteAppointment(Long id) {
-        appointmentRepository.deleteById(id);
+    public boolean deleteAppointment(Long id) {
+        if (appointmentRepository.existsById(id)) {
+            appointmentRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
+
