@@ -22,7 +22,7 @@ public class Procedures {
     private String name;
     private String description;
     private double price;
-
+    
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
