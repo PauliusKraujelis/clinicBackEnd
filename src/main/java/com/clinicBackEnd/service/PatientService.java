@@ -33,7 +33,7 @@ public class PatientService {
             patient.setLastName(updatedPatient.getLastName());
             patient.setAge(updatedPatient.getAge());
             patient.setGender(updatedPatient.getGender());
-            patient.setAppointments(updatedPatient.getAppointments());
+//            patient.setAppointments(updatedPatient.getAppointments());
             return patientRepository.save(patient);
         }
         return null;
