@@ -37,4 +37,12 @@ public class Appointment {
     @JsonIgnore
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
     private Procedures procedures;
+
+    public Long getPatientId() {
+        if (patient != null) {
+            return patient.getId();
+        }
+        return null;
+    }
+
 }
