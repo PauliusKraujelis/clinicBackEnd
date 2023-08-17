@@ -47,6 +47,7 @@ public class SecSecurityConfig {
 //        				.requestMatchers("/anonymous*").anonymous()
 //        				.requestMatchers("/login*").permitAll()
 //        				.requestMatchers("/logout*").permitAll()
+//        				.requestMatchers("/register*").permitAll()
         				.anyRequest().permitAll()
         	)
 //    	.authorizeHttpRequests(authorize -> authorize
