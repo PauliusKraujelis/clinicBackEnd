@@ -19,36 +19,39 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Configuration
 @EnableWebSecurity
 public class SecSecurityConfig {
-	@Bean
-    InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user1 = User.withUsername("user1")
-            .password(passwordEncoder().encode("user1"))
-            .roles("USER")
-            .build();
-        UserDetails user2 = User.withUsername("user2")
-            .password(passwordEncoder().encode("user2"))
-            .roles("USER")
-            .build();
-        UserDetails admin = User.withUsername("admin")
-            .password(passwordEncoder().encode("admin"))
-            .roles("ADMIN")
-            .build();
-        return new InMemoryUserDetailsManager(user1, user2, admin);
-    }
+//	@Bean
+//    InMemoryUserDetailsManager userDetailsService() {
+//        UserDetails user1 = User.withUsername("user1")
+//            .password(passwordEncoder().encode("user1"))
+//            .roles("USER")
+//            .build();
+//        UserDetails user2 = User.withUsername("user2")
+//            .password(passwordEncoder().encode("user2"))
+//            .roles("USER")
+//            .build();
+//        UserDetails admin = User.withUsername("admin")
+//            .password(passwordEncoder().encode("admin"))
+//            .roles("ADMIN")
+//            .build();
+//        return new InMemoryUserDetailsManager(user1, user2, admin);
+//    }
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-        .cors(cors -> cors.disable())
-        .csrf(csrf -> csrf.disable())
+//        .cors(cors -> cors.disable())
+//        .csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(authorize -> authorize
-        			.requestMatchers(HttpMethod.POST,"/registration").permitAll()
-        				.requestMatchers("/admin/a").hasRole("ADMIN")
-        				.requestMatchers("/anonymous*").anonymous()
-        				.requestMatchers("/login*").permitAll()
-        				.requestMatchers("/logout*").permitAll()
-        				.anyRequest().authenticated()
+//        			.requestMatchers(HttpMethod.POST,"/register").permitAll()
+//        				.requestMatchers("/admin/a").hasRole("ADMIN")
+//        				.requestMatchers("/anonymous*").anonymous()
+//        				.requestMatchers("/login*").permitAll()
+//        				.requestMatchers("/logout*").permitAll()
+        				.anyRequest().permitAll()
         	)
+//    	.authorizeHttpRequests(authorize -> authorize
+//				.anyRequest().permitAll()
+//	)
         	
         	.formLogin(withDefaults()
         	)
